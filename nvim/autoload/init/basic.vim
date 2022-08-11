@@ -23,3 +23,8 @@ set autoindent
 
 "新しい行を作った時に高度な自動インデントを行う
 set smarttab
+
+"デフォルトが8文字なため4文字に修正
+set tabstop=4
+set shiftwidth=4
+set noexpandtab

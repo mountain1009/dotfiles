@@ -82,3 +82,16 @@ on_ft = ['markdown', 'pandoc.markdown', 'rmd']
 build = '''
 cd app && yarn install
 '''
+# マルチ選択
+[[plugins]]
+repo = 'mg979/vim-visual-multi'
+
+[[plugins]]
+repo = 'reireias/vim-cheatsheet'
+hook_add = '''
+let g:cheatsheet#cheat_file = '~/.config/nvim/cheatsheed.md'
+let g:cheatsheet#float_window = 1
+" you can change float window size.
+let g:cheatsheet#float_window_width_ratio = 0.6
+let g:cheatsheet#float_window_height_ratio = 0.6
+'''
