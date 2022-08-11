@@ -1,0 +1,84 @@
+# status/tabline
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+depends = ['/vim-airline-themes']
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+hook_add = '''
+	set laststatus=2
+	let g:airline_powerline_fonts = 1
+	let g:airline#extensions#tabline#enabled = 1
+	let g:airline#extensions#tabline#buffer_idx_mode = 1
+	let g:airline#extensions#whitespace#mixed_indent_algo = 1
+	let g:airline_theme = 'dark'
+'''
+
+# ドキュメントの日本語化
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+hook_add = '''
+	set helplang=ja
+'''
+# file explorer
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+hook_add = '''
+	nnoremap <silent> <Leader>e :<C-u>Fern . -drawer -toggle<CR>
+'''
+# file explorer preview
+[[plugins]]
+repo = 'yuki-yano/fern-preview.vim'
+hook_add = '''
+	function! s:fern_settings() abort
+		nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+		nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+		nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+		nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+	endfunction
+
+	augroup fern-settings
+		autocmd!
+		autocmd FileType fern call s:fern_settings()
+	augroup END
+'''
+# file explorerにアイコンを表示する
+[[plugins]]
+repo = 'lambdalisue/nerdfont.vim'
+
+[[plugins]]
+repo = 'lambdalisue/fern-renderer-nerdfont.vim'
+hook_add = '''
+	let g:fern#renderer = 'nerdfont'
+'''
+[[plugins]]
+repo = 'lambdalisue/glyph-palette.vim'
+hook_add = '''
+" アイコンに色をつける
+	augroup my-glyph-palette
+		autocmd! *
+		autocmd FileType fern call glyph_palette#apply()
+		autocmd FileType nerdtree,startify call glyph_palette#apply()
+	augroup END
+'''
+[[plugins]]
+repo = 'alvan/vim-closetag'
+hook_add = '''
+  let g:closetag_filenames = '*.html,*.vue'
+'''
+
+# lsp
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+build = 'yarn install --frozen-lockfile'
+hook_add = '''
+	source ~/.config/nvim/autoload/config/coc/settings.vim
+'''
+
+# markdown preview
+[[plugins]]
+repo = 'iamcco/markdown-preview.nvim'
+on_ft = ['markdown', 'pandoc.markdown', 'rmd']
+build = '''
+cd app && yarn install
+'''
