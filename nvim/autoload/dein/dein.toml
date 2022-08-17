@@ -66,7 +66,8 @@ hook_add = '''
 # lsp
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-build = 'yarn install --frozen-lockfile'
+rev = 'release'
+marged = '0'
 hook_add = '''
 	source ~/.config/nvim/autoload/config/coc/settings.vim
 '''
@@ -96,3 +97,32 @@ let g:cheatsheet#float_window_height_ratio = 0.6
 repo = "airblade/vim-gitgutter"
 [[plugins]]
 repo = "tpope/vim-fugitive"
+
+[[plugins]]
+repo = 'junegunn/fzf'
+build = './install --bin'
+merged = '0'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = 'fzf'
+hook_add = '''
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
+    \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
+'''
+
+[[plugins]]
+repo = 'EdenEast/nightfox.nvim'
+hook_add = '''
+set background=dark
+colorscheme nightfox
+'''
+
+# インデント表示を可視化
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+        let g:indent_guides_enable_on_vim_startup = 1
+'''

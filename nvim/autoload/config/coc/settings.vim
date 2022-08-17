@@ -7,6 +7,9 @@ let g:coc_global_extensions = [
     \ 'coc-yaml',
     \ 'coc-eslint8',
     \ 'coc-prettier',
+    \ 'coc-tailwindcss',
+	\ 'coc-flutter',
+    \ 'coc-html',
 \ ]
 
 function! s:coc_typescript_settings() abort

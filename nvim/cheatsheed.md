@@ -33,3 +33,11 @@
 # git
 
 - `:GIT` ex. `:GIT status`
+
+
+# Fern
+- `Ctrl+p`でpreview
+- `Shift+k`でディレクトリ作成
+- `Shift+n`でファイル作成
+- `h`でディレクトリ開く
+- `L`ディレクトリ閉じる
