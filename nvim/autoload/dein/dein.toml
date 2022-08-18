@@ -7,60 +7,89 @@ depends = ['/vim-airline-themes']
 repo = 'vim-airline/vim-airline-themes'
 hook_add = '''
 let g:airline_theme = 'wombat'               " テーマの指定
-let g:airline#extensions#tabline#enabled = 1 " タブラインを表示
+let g:airline#extensions#tabline#enabled = 1 " タブラインを表示a
+"" vim-airline
+" ステータスラインに表示する項目を変更する
+let g:airline#extensions#default#layout = [
+  \ [ 'a', 'b', 'c' ],
+  \ ['z']
+  \ ]
+let g:airline_section_c = '%t %M'
+let g:airline_section_z = get(g:, 'airline_linecolumn_prefix', '').'%3l:%-2v'
+" 変更がなければdiffの行数を表示しない
+let g:airline#extensions#hunks#non_zero_only = 1 
+
+" タブラインの表示を変更する
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline#extensions#tabline#show_close_button = 0
 '''
 
 # ドキュメントの日本語化
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 hook_add = '''
-	set helplang=ja
+set helplang=ja
 '''
 # file explorer
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
-	nnoremap <silent> <Leader>e :<C-u>Fern . -drawer -toggle<CR>
+nnoremap <silent> <Leader>e :<C-u>Fern . -drawer -toggle<CR>
+"dot file visible
+let g:fern#default_hidden=1
 '''
 # file explorer preview
 [[plugins]]
 repo = 'yuki-yano/fern-preview.vim'
 hook_add = '''
-	function! s:fern_settings() abort
-		nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
-		nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
-		nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
-		nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
-	endfunction
+function! s:fern_settings() abort
+nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+endfunction
 
-	augroup fern-settings
-		autocmd!
-		autocmd FileType fern call s:fern_settings()
-	augroup END
+augroup fern-settings
+autocmd!
+autocmd FileType fern call s:fern_settings()
+augroup END
 '''
+[[plugins]]
+repo = 'lambdalisue/fern-git-status.vim'
 # file explorerにアイコンを表示する
 [[plugins]]
 repo = 'lambdalisue/nerdfont.vim'
-
+# [vim .]時にfernを開く
+[[plugins]]
+repo = 'lambdalisue/fern-hijack.vim'
 [[plugins]]
 repo = 'lambdalisue/fern-renderer-nerdfont.vim'
 hook_add = '''
-	let g:fern#renderer = 'nerdfont'
+let g:fern#renderer = 'nerdfont'
 '''
 [[plugins]]
 repo = 'lambdalisue/glyph-palette.vim'
 hook_add = '''
 " アイコンに色をつける
-	augroup my-glyph-palette
-		autocmd! *
-		autocmd FileType fern call glyph_palette#apply()
-		autocmd FileType nerdtree,startify call glyph_palette#apply()
-	augroup END
+augroup my-glyph-palette
+	autocmd! *
+	autocmd FileType fern call glyph_palette#apply()
+	autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
 '''
 [[plugins]]
 repo = 'alvan/vim-closetag'
 hook_add = '''
-  let g:closetag_filenames = '*.html,*.vue'
+let g:closetag_filenames = '*.html,*.vue'
+let g:closetag_regions =  {
+\ 'typescript.tsx': 'jsxRegion,tsxRegion',
+\ 'javascript.jsx': 'jsxRegion',
+\ }
 '''
 
 # lsp
@@ -69,7 +98,7 @@ repo = 'neoclide/coc.nvim'
 rev = 'release'
 marged = '0'
 hook_add = '''
-	source ~/.config/nvim/autoload/config/coc/settings.vim
+source ~/.config/nvim/autoload/config/coc/settings.vim
 '''
 
 # markdown preview
@@ -95,6 +124,24 @@ let g:cheatsheet#float_window_height_ratio = 0.6
 # git操作
 [[plugins]]
 repo = "airblade/vim-gitgutter"
+hook_add = '''
+" git操作
+" g]で前の変更箇所へ移動する
+nnoremap g[ :GitGutterPrevHunk<CR>
+" g[で次の変更箇所へ移動する
+nnoremap g] :GitGutterNextHunk<CR>
+" ghでdiffをハイライトする
+nnoremap gh :GitGutterLineHighlightsToggle<CR>
+" gpでカーソル行のdiffを表示する
+nnoremap gp :GitGutterPreviewHunk<CR>
+" 記号の色を変更する
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=blue
+highlight GitGutterDelete ctermfg=red
+
+" 反映時間を短くする(デフォルトは4000ms)
+set updatetime=250
+'''
 [[plugins]]
 repo = "tpope/vim-fugitive"
 
@@ -124,5 +171,14 @@ colorscheme nightfox
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
 hook_add = '''
-        let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 1
+'''
+
+
+# 自動保存
+[[plugins]]
+repo = 'vim-scripts/vim-auto-save'
+hook_add = '''
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
 '''

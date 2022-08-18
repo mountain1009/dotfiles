@@ -10,6 +10,9 @@ let g:coc_global_extensions = [
     \ 'coc-tailwindcss',
 	\ 'coc-flutter',
     \ 'coc-html',
+	\ 'coc-toml',
+	\ 'coc-perl',
+	\ 'coc-css'
 \ ]
 
 function! s:coc_typescript_settings() abort
